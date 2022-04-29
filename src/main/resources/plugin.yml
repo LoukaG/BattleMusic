@@ -1,0 +1,9 @@
+name: BattleMusic
+version: '${project.version}'
+main: ca.loushunt.battlemusic.BattleMusic
+api-version: 1.18
+prefix: BattleMusic
+softdepend: [ MCJukebox, NoteBlockAPI ]
+author: LouShunt
+description: "Some epic custom music for your fight !"
+website: https://www.youtube.com/c/LouShunt
