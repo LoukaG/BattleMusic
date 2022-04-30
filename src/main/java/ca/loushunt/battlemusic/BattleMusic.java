@@ -1,12 +1,19 @@
 package ca.loushunt.battlemusic;
 
+import ca.loushunt.battlemusic.command.BattleMusicCMD;
+import ca.loushunt.battlemusic.listener.PlayerListener;
+import ca.loushunt.battlemusic.music.Music;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Bat;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
 
 public final class BattleMusic extends JavaPlugin {
 
     private static boolean hasJukebox, hasNoteBlockAPI;
+    private static BattleMusic battleMusic;
 
     static{
         BattleMusic.hasNoteBlockAPI = BattleMusic.hasJukebox = false;
@@ -27,6 +34,23 @@ public final class BattleMusic extends JavaPlugin {
         //Enable BStats. To see the stats go to https://bstats.org/plugin/bukkit/BattleMusic/11061
         Metrics metrics = new Metrics(this, 11061);
 
+
+        saveDefaultConfig();
+
+        //Create music folder
+        File musicFolder = new File(getDataFolder()+"/music/");
+        if(!musicFolder.exists())
+            musicFolder.mkdir();
+
+        BattleMusic.battleMusic = this;
+
+        Music.loadMusicList();
+
+        //Register listener
+        getServer().getPluginManager().registerEvents( new PlayerListener(),this);
+
+        //Register command
+        getCommand("battlemusic").setExecutor(new BattleMusicCMD());
     }
 
     @Override
@@ -41,4 +65,9 @@ public final class BattleMusic extends JavaPlugin {
     public static boolean hasNoteBlockAPI() {
         return hasNoteBlockAPI;
     }
+
+    public static BattleMusic getBattleMusicInstance(){
+        return BattleMusic.battleMusic;
+    }
+
 }

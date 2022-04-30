@@ -7,3 +7,7 @@ softdepend: [ MCJukebox, NoteBlockAPI ]
 author: LouShunt
 description: "Some epic custom music for your fight !"
 website: https://www.youtube.com/c/LouShunt
+commands:
+  battlemusic:
+    aliases: [bm]
+    description: "The main command of BattleMusic"

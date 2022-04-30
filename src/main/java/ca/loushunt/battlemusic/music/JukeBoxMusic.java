@@ -10,23 +10,23 @@ public class JukeBoxMusic extends Music{
 
     private int volume, fade;
 
-    public JukeBoxMusic(String sound, Player player, int volume, int fade) {
-        super(MusicType.MCJUKEBOX, sound, player);
+    public JukeBoxMusic(String sound,int volume, int fade) {
+        super(MusicType.MCJUKEBOX, sound);
         this.volume = volume;
         this.fade = fade;
     }
 
     @Override
-    public void play() {
+    public void play(Player player) {
         Media media = new Media(ResourceType.MUSIC, getSound());
         media.setFadeDuration(fade);
         media.setVolume(volume);
-        JukeboxAPI.play(getPlayer(), media);
+        JukeboxAPI.play(player, media);
     }
 
     @Override
-    public void stop() {
-        JukeboxAPI.stopMusic(getPlayer(), "default", fade);
+    public void stop(Player player) {
+        JukeboxAPI.stopMusic(player, "default", fade);
     }
 
     public int getVolume() {

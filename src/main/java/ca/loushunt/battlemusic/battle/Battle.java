@@ -1,6 +1,8 @@
 package ca.loushunt.battlemusic.battle;
 
+import ca.loushunt.battlemusic.BattleMusic;
 import ca.loushunt.battlemusic.music.Music;
+import ca.loushunt.battlemusic.task.RunAwayTask;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -11,25 +13,24 @@ public class Battle {
     private Player player;
     private ArrayList<Entity> entities;
     private Music music;
+    private RunAwayTask runAwayTask;
 
     /**
-     * Create Battle Object with one Entity
+     * Create Battle Object
      * @param player The player
-     * @param entity The first entity
+     * @param entities The entity list
+     * @param music The music to be play
      */
-    protected Battle(Player player, Entity entity){
-        this.player = player;
-        this.entities = new ArrayList<>(Arrays.asList(entity));
-    }
-
-    /**
-     * Create Battle Object with multiple entities
-     * @param player The player
-     * @param entities The list of entities
-     */
-    protected Battle(Player player, ArrayList<Entity> entities){
+    protected Battle(Player player, ArrayList<Entity> entities, Music music){
         this.player = player;
         this.entities = entities;
+        this.music = music;
+        music.play(player);
+
+        int runawayTime = BattleMusic.getBattleMusicInstance().getConfig().getInt("run-away-time");
+
+        this.runAwayTask = new RunAwayTask(this);
+        this.runAwayTask.runTaskLater(BattleMusic.getBattleMusicInstance(), runawayTime*20);
     }
 
     /**
@@ -55,5 +56,23 @@ public class Battle {
      */
     public void removeEntity(Entity entity){
         this.entities.remove(entity);
+        if(this.entities.size() == 0)
+            BattleManager.stopBattle(player);
+    }
+
+    public void resetRunAwayTask(){
+        int runawayTime = BattleMusic.getBattleMusicInstance().getConfig().getInt("run-away-time");
+
+        runAwayTask.cancel();
+        this.runAwayTask = new RunAwayTask(this);
+        this.runAwayTask.runTaskLater(BattleMusic.getBattleMusicInstance(), runawayTime*20);
+    }
+
+    public Music getMusic() {
+        return music;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

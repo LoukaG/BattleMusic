@@ -8,31 +8,34 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.HashMap;
 
 public class NoteBlockMusic extends Music{
 
-    private RadioSongPlayer radioSongPlayer;
-    private File soundFile;
+    private HashMap<Player, RadioSongPlayer> radioSongPlayerList;
+    private Song song;
 
-    public NoteBlockMusic(String sound, Player player, String folderPath) {
-        super(MusicType.NOTEBLOCK, sound, player);
-        this.soundFile = new File(folderPath+"/music",sound);
+    public NoteBlockMusic(String sound, String folderPath) {
+        super(MusicType.NOTEBLOCK, sound);
+        File soundFile = new File(folderPath+"\\music\\"+sound);
+        if(!soundFile.exists())
+            Bukkit.getLogger().info("[BattleMusic] Failed to load NoteBlockAPI Music "+getSound());
+        this.song = NBSDecoder.parse(soundFile);
+        this.radioSongPlayerList = new HashMap<Player,RadioSongPlayer>();
     }
 
     @Override
-    public void play() {
-        if(this.soundFile.exists()){
-            Song song = NBSDecoder.parse(soundFile);
-            radioSongPlayer = new RadioSongPlayer(song);
-            radioSongPlayer.addPlayer(getPlayer());
-            radioSongPlayer.setRepeatMode(RepeatMode.ALL);
-            radioSongPlayer.setPlaying(true);
-        }else
-            Bukkit.getLogger().info("Failed to load NoteBlockAPI Music "+getSound());
+    public void play(Player player) {
+        RadioSongPlayer radioSongPlayer = new RadioSongPlayer(song);
+        radioSongPlayer.addPlayer(player);
+        radioSongPlayer.setRepeatMode(RepeatMode.ALL);
+        radioSongPlayer.setPlaying(true);
+        radioSongPlayerList.put(player, radioSongPlayer);
     }
 
     @Override
-    public void stop() {
-        radioSongPlayer.destroy();
+    public void stop(Player player) {
+        radioSongPlayerList.get(player).destroy();
+        radioSongPlayerList.remove(player);
     }
 }
