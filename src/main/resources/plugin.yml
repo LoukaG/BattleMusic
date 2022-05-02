@@ -11,3 +11,5 @@ commands:
   battlemusic:
     aliases: [bm]
     description: "The main command of BattleMusic"
+    permission: "battlemusic.command"
+    usage: "§cUsage: /<command> <reload/version/add/remove/show>"

@@ -52,6 +52,7 @@ public class BattleManager {
     }
 
     public static void removeBattle(Player player){
+        BattleManager.getBattle(player).getRunAwayTask().cancel();
         BattleManager.battleList.remove(player);
     }
 

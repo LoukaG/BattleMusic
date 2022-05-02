@@ -1,5 +1,6 @@
 package ca.loushunt.battlemusic.music;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -13,17 +14,17 @@ public class RPMusic extends Music{
     @Override
     public void play(Player player) {
         try{
-            player.playSound(player.getLocation(), Sound.valueOf(getSound()),100.0f,1.0f);
+            player.playSound(player.getLocation(), Sound.valueOf(getSound()),10000.0f,1.0f);
         }catch(Exception e){
-            player.playSound(player.getLocation(), getSound(), 100.0f, 1.0f);
+            player.playSound(player.getLocation(), getSound(), 10000.0f, 1.0f);
         }
     }
 
     @Override
     public void stop(Player player) {
-        try{
+        try {
             player.stopSound(Sound.valueOf(getSound()));
-        }catch(Exception exception){
+        } catch (Exception exception) {
             player.stopSound(getSound());
         }
     }

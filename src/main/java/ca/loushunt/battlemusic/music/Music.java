@@ -129,14 +129,14 @@ public abstract class Music {
      */
     public static Music getMusic(String sound){
 
-        if(sound.startsWith("mcjukebox:")){
+        if(sound.startsWith("mcjukebox:") && BattleMusic.hasJukebox()){
             //MCJukebox music. Start with "mcjukebox:"
             sound = sound.replace("mcjukebox:", "");
 
             return new JukeBoxMusic(sound,
                     BattleMusic.getBattleMusicInstance().getConfig().getInt("mcjukebox.volume"),
                     BattleMusic.getBattleMusicInstance().getConfig().getInt("mcjukebox.fade"));
-        }else if(sound.startsWith("noteblock:")){
+        }else if(sound.startsWith("noteblock:") && BattleMusic.hasNoteBlockAPI()){
             //Noteblock music. Start with "noteblock:"
             sound = sound.replace("noteblock:","");
             sound += sound.endsWith(".nbs")?"":".nbs";

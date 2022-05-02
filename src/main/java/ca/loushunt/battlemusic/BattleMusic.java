@@ -1,11 +1,11 @@
 package ca.loushunt.battlemusic;
 
 import ca.loushunt.battlemusic.command.BattleMusicCMD;
+import ca.loushunt.battlemusic.command.BattleMusicCMDCompleter;
 import ca.loushunt.battlemusic.listener.PlayerListener;
 import ca.loushunt.battlemusic.music.Music;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Bat;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -51,6 +51,7 @@ public final class BattleMusic extends JavaPlugin {
 
         //Register command
         getCommand("battlemusic").setExecutor(new BattleMusicCMD());
+        getCommand("battlemusic").setTabCompleter(new BattleMusicCMDCompleter());
     }
 
     @Override

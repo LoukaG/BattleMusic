@@ -75,4 +75,8 @@ public class Battle {
     public Player getPlayer() {
         return player;
     }
+
+    public RunAwayTask getRunAwayTask() {
+        return runAwayTask;
+    }
 }
