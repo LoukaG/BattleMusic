@@ -5,6 +5,7 @@ import ca.loushunt.battlemusic.command.BattleMusicCMDCompleter;
 import ca.loushunt.battlemusic.listener.PlayerListener;
 import ca.loushunt.battlemusic.music.Music;
 import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,6 +35,13 @@ public final class BattleMusic extends JavaPlugin {
         //Enable BStats. To see the stats go to https://bstats.org/plugin/bukkit/BattleMusic/11061
         Metrics metrics = new Metrics(this, 11061);
 
+        metrics.addCustomChart(new SimplePie("has_mcjukebox",()->{
+            return String.valueOf(BattleMusic.hasJukebox());
+        }));
+
+        metrics.addCustomChart(new SimplePie("has_noteblockapi", ()->{
+            return String.valueOf(BattleMusic.hasNoteBlockAPI());
+        }));
 
         saveDefaultConfig();
 
