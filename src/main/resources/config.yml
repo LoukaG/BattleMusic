@@ -7,6 +7,8 @@ mcjukebox:
   fade: 3 # fading time in second when using mcjukebox
   volume: 100 # Music volume (max 100)
 
+commands-after-fight: #Execute command after the fight. {player} for player name
+  - "jukebox sound {player} https://audio.jukehost.co.uk/O35LQERiX8eIDm1UsZ3h8LcTtgjGrftA"
 
 ignore-playervsplayer: false # Do you ignore player vs player
 

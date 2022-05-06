@@ -19,7 +19,7 @@ public class NoteBlockMusic extends Music{
         super(MusicType.NOTEBLOCK, sound);
         File soundFile = new File(folderPath+"\\music\\"+sound);
         if(!soundFile.exists())
-            Bukkit.getLogger().info("[BattleMusic] Failed to load NoteBlockAPI Music "+getSound());
+            Bukkit.getLogger().warning("[BattleMusic] Failed to load NoteBlockAPI Music "+getSound());
         this.song = NBSDecoder.parse(soundFile);
         this.radioSongPlayerList = new HashMap<Player,RadioSongPlayer>();
     }

@@ -37,7 +37,6 @@
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <!-- Replace this with your package! -->
                             <shadedPattern>ca.loushunt.battlemusic</shadedPattern>
                         </relocation>
                     </relocations>
@@ -50,7 +49,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>C:\Users\Louka\Documents\Minecraft\Server\spigot 1.18.2\plugins\BattleMusic 3.0.jar</outputFile>
+                            <outputFile>C:\Users\Louka\Documents\Minecraft\Server\spigot 1.18.2\plugins\BattleMusic-v${project.version}.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>

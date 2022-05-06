@@ -1,7 +1,10 @@
 package ca.loushunt.battlemusic.battle;
 
+import ca.loushunt.battlemusic.BattleMusic;
 import ca.loushunt.battlemusic.music.Music;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.checkerframework.checker.units.qual.A;
 
@@ -32,7 +35,6 @@ public class BattleManager {
     public static Battle createBattle(Player player, ArrayList<Entity> entities){
         Battle battle = new Battle(player,entities,Music.getMusicFromEntity(entities.get(0)));
         BattleManager.battleList.put(player,battle);
-
         return battle;
     }
 
@@ -59,6 +61,11 @@ public class BattleManager {
     public static void stopBattle(Player player){
         BattleManager.getBattle(player).getMusic().stop(player);
         BattleManager.removeBattle(player);
+
+        //Execute command after fight
+        if(BattleMusic.getBattleMusicInstance().getConfig().contains("commands-after-fight"))
+            for(String command: BattleMusic.getBattleMusicInstance().getConfig().getStringList("commands-after-fight"))
+                Bukkit.dispatchCommand(Bukkit.getServer().getConsoleSender(),command.replace("{player}",player.getName()));
     }
 
     public static ArrayList<Battle> getBattles(){
