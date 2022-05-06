@@ -10,5 +10,37 @@ commands:
   battlemusic:
     aliases: [bm]
     description: "The main command of BattleMusic"
-    permission: "battlemusic.command"
+    permission: "battlemusic.setup"
     usage: "§cUsage: /<command> <reload/version/add/remove/show>"
+  battlemusic-enable:
+    aliases: [bm-enable]
+    description: "Enable battlemusic for a player"
+    permission: "battlemusic.disable"
+    usage: "§cUsage: /<command> <player>"
+  battlemusic-disable:
+    aliases: [bm-disable]
+    description: "Disable battlemusic for a player"
+    permission: "battlemusic.disable"
+    usage: "§cUsage: /<command> <player>"
+
+
+permissions:
+  battlemusic.*:
+    description: Give acces to all BattleMusic command
+    default: op
+    children:
+      battlemusic.setup: true
+  battlemusic.setup:
+    description: Give access to all BattleMusic setup command
+    default: op
+    children:
+      battlemusic.disable: true
+      battlemusic.disable.other: true
+  battlemusic.disable.other:
+    description: Give access to command to disable or enable battlemusic for self or other
+    children:
+      battlemusic.disable: true
+  battlemusic.disable:
+    description: Give access to command to disable or enable battlemusic for self
+
+

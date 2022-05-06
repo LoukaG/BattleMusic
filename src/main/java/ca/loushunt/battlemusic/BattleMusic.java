@@ -2,6 +2,7 @@ package ca.loushunt.battlemusic;
 
 import ca.loushunt.battlemusic.command.BattleMusicCMD;
 import ca.loushunt.battlemusic.command.BattleMusicCMDCompleter;
+import ca.loushunt.battlemusic.command.BattleMusicToggleCMD;
 import ca.loushunt.battlemusic.listener.PlayerListener;
 import ca.loushunt.battlemusic.music.Music;
 import org.bstats.bukkit.Metrics;
@@ -60,6 +61,10 @@ public final class BattleMusic extends JavaPlugin {
         //Register command
         getCommand("battlemusic").setExecutor(new BattleMusicCMD());
         getCommand("battlemusic").setTabCompleter(new BattleMusicCMDCompleter());
+
+        BattleMusicToggleCMD bmToggle = new BattleMusicToggleCMD();
+        getCommand("battlemusic-enable").setExecutor(bmToggle);
+        getCommand("battlemusic-disable").setExecutor(bmToggle);
     }
 
     @Override

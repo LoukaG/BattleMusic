@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class BattleMusicCMD implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if(sender.hasPermission("battlemusic.command")) {
+        if(sender.hasPermission("battlemusic.setup")) {
             switch (args.length) {
                 case 0:
                     sender.sendMessage(ChatColor.GREEN + "BattleMusic" + ChatColor.WHITE + " version " + ChatColor.GREEN + BattleMusic.getBattleMusicInstance().getDescription().getVersion()

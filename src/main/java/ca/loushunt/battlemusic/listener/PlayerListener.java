@@ -23,16 +23,17 @@ public class PlayerListener implements Listener {
                 if(event.getEntity() instanceof Player || event.getDamager() instanceof Player){
                     Player player = (Player) (event.getEntity() instanceof Player? event.getEntity(): event.getDamager());
                     Entity entity = event.getEntity() instanceof Player? event.getDamager(): event.getEntity();
-                    if(!(entity instanceof Player) || !BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-playervsplayer"))
-                        if(!BattleMusic.getBattleMusicInstance().getConfig().getStringList("disable-music").contains(entity.getType().toString().toLowerCase()))
-                            if(entity instanceof Monster || (entity instanceof Player && !BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-playervsplayer")))
-                                if(!(BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-creative") && player.getGameMode() == GameMode.CREATIVE))
-                                    if(BattleManager.isPlayerFighting(player)) {
-                                        if (!BattleManager.getBattle(player).containsEntity(entity))
-                                            BattleManager.getBattle(player).addEntity(entity);
-                                        BattleManager.getBattle(player).resetRunAwayTask();
-                                    }else
-                                        BattleManager.createBattle(player, entity);
+                    if(!BattleMusic.getBattleMusicInstance().getConfig().getStringList("disable-player").contains(player.getName()))
+                        if(!(entity instanceof Player) || !BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-playervsplayer"))
+                            if(!BattleMusic.getBattleMusicInstance().getConfig().getStringList("disable-music").contains(entity.getType().toString().toLowerCase()))
+                                if(entity instanceof Monster || (entity instanceof Player && !BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-playervsplayer")))
+                                    if(!(BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-creative") && player.getGameMode() == GameMode.CREATIVE))
+                                        if(BattleManager.isPlayerFighting(player)) {
+                                            if (!BattleManager.getBattle(player).containsEntity(entity))
+                                                BattleManager.getBattle(player).addEntity(entity);
+                                            BattleManager.getBattle(player).resetRunAwayTask();
+                                        }else
+                                            BattleManager.createBattle(player, entity);
                 }
 
 
@@ -45,13 +46,14 @@ public class PlayerListener implements Listener {
             if(event.getTarget() instanceof Player){
                 Player player = (Player) event.getTarget();
                 Entity entity = event.getEntity();
-                if(!BattleMusic.getBattleMusicInstance().getConfig().getStringList("disable-music").contains(entity.getType().toString().toLowerCase()))
-                    if(!(BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-creative") && player.getGameMode() == GameMode.CREATIVE))
-                        if(BattleManager.isPlayerFighting(player)) {
-                            if (!BattleManager.getBattle(player).containsEntity(entity))
-                                BattleManager.getBattle(player).addEntity(entity);
-                        }else
-                            BattleManager.createBattle(player, entity);
+                if(!BattleMusic.getBattleMusicInstance().getConfig().getStringList("disable-player").contains(player.getName()))
+                    if(!BattleMusic.getBattleMusicInstance().getConfig().getStringList("disable-music").contains(entity.getType().toString().toLowerCase()))
+                        if(!(BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-creative") && player.getGameMode() == GameMode.CREATIVE))
+                            if(BattleManager.isPlayerFighting(player)) {
+                                if (!BattleManager.getBattle(player).containsEntity(entity))
+                                    BattleManager.getBattle(player).addEntity(entity);
+                            }else
+                                BattleManager.createBattle(player, entity);
             }
     }
 
