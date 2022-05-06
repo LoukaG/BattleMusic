@@ -1,7 +1,6 @@
 name: BattleMusic
 version: '${project.version}'
 main: ca.loushunt.battlemusic.BattleMusic
-api-version: 1.18
 prefix: BattleMusic
 softdepend: [ MCJukebox, NoteBlockAPI ]
 author: LouShunt
