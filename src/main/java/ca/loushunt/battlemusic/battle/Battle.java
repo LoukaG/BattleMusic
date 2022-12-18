@@ -14,6 +14,7 @@ public class Battle {
     private ArrayList<Entity> entities;
     private Music music;
     private RunAwayTask runAwayTask;
+    private boolean isFinish;
 
     /**
      * Create Battle Object
@@ -25,7 +26,10 @@ public class Battle {
         this.player = player;
         this.entities = entities;
         this.music = music;
-        music.play(player);
+        this.isFinish = false;
+
+        if(music == null)
+            return;
 
         int runawayTime = BattleMusic.getBattleMusicInstance().getConfig().getInt("run-away-time");
 
@@ -78,5 +82,13 @@ public class Battle {
 
     public RunAwayTask getRunAwayTask() {
         return runAwayTask;
+    }
+
+    protected void finish(){
+        this.isFinish = true;
+    }
+
+    public boolean isFinish() {
+        return isFinish;
     }
 }

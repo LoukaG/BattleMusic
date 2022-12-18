@@ -7,10 +7,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.EntityTargetLivingEntityEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -73,6 +70,12 @@ public class PlayerListener implements Listener {
             if(battle.containsEntity(event.getEntity()))
                 battle.removeEntity(event.getEntity());
 
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event){
+        if(BattleManager.isPlayerFighting(event.getEntity()))
+            BattleManager.stopBattle(event.getEntity());
     }
 
     @EventHandler

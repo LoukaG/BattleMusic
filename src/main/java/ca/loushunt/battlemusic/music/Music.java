@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 public abstract class Music {
 
@@ -95,10 +96,14 @@ public abstract class Music {
         for(String subsection: config.getConfigurationSection(path).getKeys(false)){
             if(subsection.equals("sound")){
                 ArrayList<Music> musics = new ArrayList<>();
-                for(String sound: config.getStringList(path+".sound"))
-                    musics.add(Music.getMusic(sound));
+                for(String sound: config.getStringList(path+".sound")){
+                    Music music = Music.getMusic(sound);
+                    if(music != null)
+                        musics.add(music);
+                }
 
-                musicList.put(path+"."+subsection, musics);
+                if(musics.size() > 0)
+                    musicList.put(path+"."+subsection, musics);
             }else
                 Music.loadSubsectionSound(path+"."+subsection);
         }
@@ -119,7 +124,10 @@ public abstract class Music {
         if(Music.musicList.containsKey("music."+type+"."+entity.getCustomName()+".sound"))
             path = "music."+type+"."+entity.getCustomName()+".sound";
 
-        return Music.musicList.get(path).get((int)(Math.random()*Music.musicList.get(path).size()));
+        if(Music.musicList.get(path) != null)
+            return Music.musicList.get(path).get((int)(Math.random()*Music.musicList.get(path).size()));
+
+        return null;
     }
 
     /**
@@ -142,6 +150,16 @@ public abstract class Music {
             sound += sound.endsWith(".nbs")?"":".nbs";
 
             return new NoteBlockMusic(sound, BattleMusic.getBattleMusicInstance().getDataFolder()+"");
+        }
+        Pattern p = Pattern.compile("[^a-z0-9/._-]");
+
+
+        if(p.matcher(sound.split(";")[0]).find()){
+
+            Bukkit.getLogger().warning(sound.startsWith("mcjukebox:")?"[BattleMusic] Could not load sound '"+sound+"' from Minecraft sound. You need MCJukebox to use this sound"
+                    :(sound.startsWith("noteblock")?"[BattleMusic] Could not load sound '"+sound+"' from Minecraft sound. You need NoteBlockAPI to use this sound"
+                    :"[BattleMusic] Could not load sound '"+sound+"' from Minecraft sound."));
+            return null;
         }
 
         //RessourcePack Music

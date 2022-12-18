@@ -15,6 +15,11 @@ public class NoteBlockMusic extends Music{
     private HashMap<Player, RadioSongPlayer> radioSongPlayerList;
     private Song song;
 
+    /**
+     * Create a new NoteBlockMusic
+     * @param sound The sound
+     * @param folderPath The folder path
+     */
     public NoteBlockMusic(String sound, String folderPath) {
         super(MusicType.NOTEBLOCK, sound);
         File soundFile = new File(folderPath+"\\music\\"+sound);
@@ -24,6 +29,10 @@ public class NoteBlockMusic extends Music{
         this.radioSongPlayerList = new HashMap<Player,RadioSongPlayer>();
     }
 
+    /**
+     * Play the NoteBlockMusic music
+     * @param player The player to play the music
+     */
     @Override
     public void play(Player player) {
         RadioSongPlayer radioSongPlayer = new RadioSongPlayer(song);
@@ -33,6 +42,10 @@ public class NoteBlockMusic extends Music{
         radioSongPlayerList.put(player, radioSongPlayer);
     }
 
+    /**
+     * Stop the NoteBlockMusic music
+     * @param player The player to stop the music
+     */
     @Override
     public void stop(Player player) {
         radioSongPlayerList.get(player).destroy();

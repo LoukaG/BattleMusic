@@ -25,12 +25,12 @@ public final class BattleMusic extends JavaPlugin {
         //Check if MCJukebox is enable on the server
         BattleMusic.hasJukebox = getServer().getPluginManager().getPlugin("MCJukebox") != null;
         if(!BattleMusic.hasJukebox)
-            getServer().getLogger().info("Failed to load MCJukebox.");
+            getServer().getLogger().info("[BattleMusic] Failed to load MCJukebox.");
 
         //Check if NoteBlockAPI is enable on the server
         BattleMusic.hasNoteBlockAPI = getServer().getPluginManager().getPlugin("NoteBlockAPI") != null;
         if(!BattleMusic.hasNoteBlockAPI)
-            getServer().getLogger().info("Failed to load NoteBlockAPI.");
+            getServer().getLogger().info("[BattleMusic] Failed to load NoteBlockAPI.");
 
         //Enable BStats. To see the stats go to https://bstats.org/plugin/bukkit/BattleMusic/11061
         Metrics metrics = new Metrics(this, 11061);
