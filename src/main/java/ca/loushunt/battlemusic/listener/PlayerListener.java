@@ -17,68 +17,67 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class PlayerListener implements Listener {
 
     @EventHandler
-    public void onAttack(EntityDamageByEntityEvent event){
-        if(event.getDamager() instanceof LivingEntity && event.getEntity() instanceof LivingEntity)
-            if(((LivingEntity)event.getEntity()).getHealth()-event.getDamage() > 0)
-                if(event.getEntity() instanceof Player || event.getDamager() instanceof Player){
-                    Player player = (Player) (event.getEntity() instanceof Player? event.getEntity(): event.getDamager());
-                    Entity entity = event.getEntity() instanceof Player? event.getDamager(): event.getEntity();
-                    if(!(entity instanceof Player) || !BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-playervsplayer"))
-                        if(!BattleMusic.getBattleMusicInstance().getConfig().getStringList("disable-music").contains(entity.getType().toString().toLowerCase()))
-                            if(entity instanceof Monster || (entity instanceof Player && !BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-playervsplayer")))
-                                if(!(BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-creative") && player.getGameMode() == GameMode.CREATIVE))
-                                    if(BattleManager.isPlayerFighting(player)) {
+    public void onAttack(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof LivingEntity && event.getEntity() instanceof LivingEntity)
+            if (((LivingEntity) event.getEntity()).getHealth() - event.getDamage() > 0)
+                if (event.getEntity() instanceof Player || event.getDamager() instanceof Player) {
+                    Player player = (Player) (event.getEntity() instanceof Player ? event.getEntity() : event.getDamager());
+                    Entity entity = event.getEntity() instanceof Player ? event.getDamager() : event.getEntity();
+                    if (!(entity instanceof Player) || !BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-playervsplayer"))
+                        if (!BattleMusic.getBattleMusicInstance().getConfig().getStringList("disable-music").contains(entity.getType().toString().toLowerCase()))
+                            if (entity instanceof Monster || (entity instanceof Player && !BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-playervsplayer")))
+                                if (!(BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-creative") && player.getGameMode() == GameMode.CREATIVE))
+                                    if (BattleManager.isPlayerFighting(player)) {
                                         if (!BattleManager.getBattle(player).containsEntity(entity))
                                             BattleManager.getBattle(player).addEntity(entity);
                                         BattleManager.getBattle(player).resetRunAwayTask();
-                                    }else
+                                    } else
                                         BattleManager.createBattle(player, entity);
                 }
-
 
 
     }
 
     @EventHandler
-    public void onTargetChange(EntityTargetLivingEntityEvent event){
-        if(event.getEntity() instanceof LivingEntity && event.getEntity() instanceof Monster)
-            if(event.getTarget() instanceof Player){
+    public void onTargetChange(EntityTargetLivingEntityEvent event) {
+        if (event.getEntity() instanceof LivingEntity && event.getEntity() instanceof Monster)
+            if (event.getTarget() instanceof Player) {
                 Player player = (Player) event.getTarget();
                 Entity entity = event.getEntity();
-                if(!BattleMusic.getBattleMusicInstance().getConfig().getStringList("disable-music").contains(entity.getType().toString().toLowerCase()))
-                    if(!(BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-creative") && player.getGameMode() == GameMode.CREATIVE))
-                        if(BattleManager.isPlayerFighting(player)) {
+                if (!BattleMusic.getBattleMusicInstance().getConfig().getStringList("disable-music").contains(entity.getType().toString().toLowerCase()))
+                    if (!(BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-creative") && player.getGameMode() == GameMode.CREATIVE))
+                        if (BattleManager.isPlayerFighting(player)) {
                             if (!BattleManager.getBattle(player).containsEntity(entity))
                                 BattleManager.getBattle(player).addEntity(entity);
-                        }else
+                        } else
                             BattleManager.createBattle(player, entity);
             }
     }
 
     @EventHandler
-    public void onQuit(PlayerQuitEvent event){
-        if(BattleManager.isPlayerFighting(event.getPlayer()))
+    public void onQuit(PlayerQuitEvent event) {
+        if (BattleManager.isPlayerFighting(event.getPlayer()))
             BattleManager.stopBattle(event.getPlayer());
     }
 
     @EventHandler
-    public void onGameModeChange(PlayerGameModeChangeEvent event){
-        if(BattleManager.isPlayerFighting(event.getPlayer()) && event.getNewGameMode() == GameMode.CREATIVE && BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-creative"))
+    public void onGameModeChange(PlayerGameModeChangeEvent event) {
+        if (BattleManager.isPlayerFighting(event.getPlayer()) && event.getNewGameMode() == GameMode.CREATIVE && BattleMusic.getBattleMusicInstance().getConfig().getBoolean("ignore-creative"))
             BattleManager.stopBattle(event.getPlayer());
     }
 
     @EventHandler
-    public void onEntityDeath(EntityDeathEvent event){
-        for(Battle battle: BattleManager.getBattles())
-            if(battle.containsEntity(event.getEntity()))
+    public void onEntityDeath(EntityDeathEvent event) {
+        for (Battle battle : BattleManager.getBattles())
+            if (battle.containsEntity(event.getEntity()))
                 battle.removeEntity(event.getEntity());
 
     }
 
     @EventHandler
-    public void onEntityExplode(EntityExplodeEvent event){
-        for(Battle battle: BattleManager.getBattles())
-            if(battle.containsEntity(event.getEntity()))
+    public void onEntityExplode(EntityExplodeEvent event) {
+        for (Battle battle : BattleManager.getBattles())
+            if (battle.containsEntity(event.getEntity()))
                 battle.removeEntity(event.getEntity());
     }
 
